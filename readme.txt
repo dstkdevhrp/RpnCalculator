@@ -1,4 +1,3 @@
-# RpnCalculator
 RPN (Reverse Polish Notation) expression calculator
 
 Requirement: 'unit-test assignment.docx'

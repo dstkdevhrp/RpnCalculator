@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RpnCalculator", "RpnCalculator.csproj", "{DB52B311-D601-494D-85A6-5572FDF10B46}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RpnCalculatorTests", "RpnCalculatorTests\RpnCalculatorTests.csproj", "{8752DABA-6252-4F35-A468-AB41B2321290}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{5818725E-F59F-401E-8313-CFEBEE244836}"
+	ProjectSection(SolutionItems) = preProject
+		readme.txt = readme.txt
+		unit-test assignment.docx = unit-test assignment.docx
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DB52B311-D601-494D-85A6-5572FDF10B46}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DB52B311-D601-494D-85A6-5572FDF10B46}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DB52B311-D601-494D-85A6-5572FDF10B46}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DB52B311-D601-494D-85A6-5572FDF10B46}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8752DABA-6252-4F35-A468-AB41B2321290}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8752DABA-6252-4F35-A468-AB41B2321290}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8752DABA-6252-4F35-A468-AB41B2321290}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8752DABA-6252-4F35-A468-AB41B2321290}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
