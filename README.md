@@ -8,8 +8,8 @@ Requirement: 'unit-test assignment.docx'
 	- Calculate the RPN values (Allow double value)
 	- Interact with user via console, output the hint and error message
 
-2. Develop environment:
-	- You can test run 'RpnCalculator.exe' directly (currently in ./obj/Debug folder)
+2. Develop & run environment:
+	- For demo, you can test run 'RpnCalculator.exe' directly (Please change the ext name of the RpnCalculator.ex to RpnCalculator.exe)
 	- VS2015 community, MSTest
 	- .NET 4.5.2, C#
 
