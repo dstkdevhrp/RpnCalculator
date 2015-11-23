@@ -12,12 +12,13 @@ namespace RpnCalculator
         {
             try
             {
-                Console.Write("Please input the RPN array, use comma to split the digital & operator\r\n");
+                Console.Write("Please input the RPN array, use comma to split the digital & operator\r\n\r\n");
                 String rpnArray = Console.ReadLine();
-                Console.WriteLine("Your proposed Reverse Polish Notation is: '" + rpnArray + "'");
+                Console.WriteLine("Your proposed Reverse Polish Notation is: '" + rpnArray + "'\r\n");
                 RpnExpression rpnEx = new RpnExpression(rpnArray);
                 //Console.WriteLine(rpnEx.IsInputValid);
-                Console.WriteLine("The calculated value of the RPN expression is: '" + rpnEx.calculate() + "'");
+                Console.WriteLine("The calculated value of the RPN expression is: '" + rpnEx.calculate() + "'\r\n\r\n");
+                Console.WriteLine("Please click one more time to close the dialoge.\r\n");
             }
             catch (Exception ex)
             {
