@@ -11,7 +11,14 @@ namespace RpnCalculator
     {
         private static string INVALID_STR_ERRMSG = "Input array invalid";
         private static string NUMBER_OPERATOR_ERRMSG = "Number of operator and digital is incorrect";
+        private static string OPERATOR_POSITION_ERRMSG = "Position of operator is incorrect";
         private Stack rpnStack;
+
+        public char Delimiter
+        {
+            get;
+            set;
+        }
 
         public String InputStr
         {
@@ -30,10 +37,11 @@ namespace RpnCalculator
 
         }
 
-        public RpnExpression(String input)
+        public RpnExpression(String input, char dl)
         {
+            this.Delimiter = dl;
             this.InputStr = input;
-            this.validInput(input);
+            this.validInput(input, dl);
         }
 
         public double calculate()
@@ -46,18 +54,14 @@ namespace RpnCalculator
             double result = 0;
 
             // Use a stack to help record temporary calculation parameters
-            String[] isa = InputStr.Split(new char[] { ',' });
+            String[] isa = InputStr.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
             rpnStack = new Stack();
 
             for (int i = 0; i < isa.Length; i++)
             {
-                String ss = isa[i].Trim();
+                String ss = isa[i];
 
-                if (isDouble(ss))
-                {
-                    rpnStack.Push(ss);
-                }
-                else if (isOperator(ss))
+                if (isOperator(ss))
                 {
                     String right = rpnStack.Pop().ToString();
                     String left = rpnStack.Pop().ToString();
@@ -66,12 +70,22 @@ namespace RpnCalculator
                         throw new Exception(INVALID_STR_ERRMSG);
                     }
 
+                    if (Delimiter.Equals(','))
+                    {
+                        left = left.Replace(',', '.');
+                        right = right.Replace(',', '.');
+                    }
+
                     double lv = double.Parse(left);
                     double rv = double.Parse(right);
                     double r = calculate(lv, rv, ss);
 
                     rpnStack.Push(Convert.ToString(r));
                     result = r;
+                }
+                else
+                {
+                    rpnStack.Push(ss);
                 }
             }
 
@@ -113,21 +127,29 @@ namespace RpnCalculator
             return result;
         }
 
-        public bool validInput(String input)
+        public bool validInput(String input, char dl)
         {
-            String[] inputArray = input.Split(new char[] { ',' });
+            String[] inputArray = input.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
             IsInputValid = true;
             int opNum = 0;
             int dgNum = 0;
 
             for (int i = 0; i < inputArray.Length; i++)
             {
-                if (this.isOperator(inputArray[i]))
+                String item = inputArray[i];
+
+                if (this.isOperator(item))
                 {
+                    if (i == 0 || i == 1)
+                    {
+                        IsInputValid = false;
+                        Console.WriteLine(OPERATOR_POSITION_ERRMSG);
+                        break;
+                    }
                     opNum++;
                 }
-                else if (this.isDouble(inputArray[i]))
-                {
+                else if (this.isDouble(item, dl))
+                {   
                     dgNum++;
                 }
                 else
@@ -138,11 +160,14 @@ namespace RpnCalculator
                 }
             }
 
-            // Count of Digi-numbers must bigger than operator number only 1
-            if (dgNum - opNum != 1)
+            if (IsInputValid)
             {
-                IsInputValid = false;
-                Console.WriteLine(NUMBER_OPERATOR_ERRMSG);
+                // Count of Digi-numbers must bigger than operator number only 1
+                if (dgNum - opNum != 1)
+                {
+                    IsInputValid = false;
+                    Console.WriteLine(NUMBER_OPERATOR_ERRMSG);
+                }
             }
 
             return IsInputValid;
@@ -162,12 +187,27 @@ namespace RpnCalculator
             return isOp;
         }
 
-        public bool isDouble(String floatNum)
+        public bool isDouble(String floatNum, char dl)
         {
             bool isDouble = false;
             double res = 0;
 
-            if (double.TryParse(floatNum, out res))
+            if (floatNum.Contains(",") && dl.Equals('.'))
+            {
+                return false;
+            }
+
+            if (floatNum.Contains(".") && dl.Equals(','))
+            {
+                return false;
+            }
+
+            String fn = floatNum;
+            if (dl.Equals(','))
+            {
+                fn = fn.Replace(',', '.');
+            }
+            if (double.TryParse(fn, out res))
             {
                 isDouble = true;
             }

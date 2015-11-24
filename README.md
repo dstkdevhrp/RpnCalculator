@@ -16,3 +16,7 @@ Requirement: 'unit-test assignment.docx'
 3. Unit test:
 	- method level: isDouble, isOperator, validInput, calculate
 	- class level: calculate & constructor
+
+4. The decimal delimiter
+	- Can compatible with ',' & '.'
+	- Before input the RPN expression, need to select the decimal delimiter

@@ -15,34 +15,53 @@ namespace RpnCalculator.Tests
         public void isOperatorTest()
         {
             RpnExpression re = new RpnExpression();
+            // Only +, -, *, / available
             Assert.IsTrue(re.isOperator("+"));
             Assert.IsTrue(re.isOperator("-"));
             Assert.IsTrue(re.isOperator("*"));
             Assert.IsTrue(re.isOperator("/"));
+            // Any others unavailable
             Assert.IsFalse(re.isOperator("("));
             Assert.IsFalse(re.isOperator(")"));
         }
 
         [TestMethod()]
-        public void isFloatTest()
+        public void isDoubleTest()
         {
             RpnExpression re = new RpnExpression();
-            Assert.IsTrue(re.isDouble("-1"));
-            Assert.IsTrue(re.isDouble("0.01"));
-            Assert.IsTrue(re.isDouble("100"));
-            Assert.IsFalse(re.isDouble("/"));
+            // Integer is ok to both ',' and '.'
+            Assert.IsTrue(re.isDouble("-1", '.'));
+            Assert.IsTrue(re.isDouble("100", '.'));
+            // Double need to judge if ',' or '.'
+            Assert.IsTrue(re.isDouble("0.01", '.'));
+            Assert.IsFalse(re.isDouble("0.01", ','));
+            Assert.IsTrue(re.isDouble("0,01", ','));
+            Assert.IsFalse(re.isDouble("0,01", '.'));
+            // Operator should false for both ',' and '.'
+            Assert.IsFalse(re.isDouble("/", ','));
+            Assert.IsFalse(re.isDouble("/", '.'));
         }
 
         [TestMethod()]
         public void validInputTest()
         {
             RpnExpression re = new RpnExpression();
-            Assert.IsTrue(re.validInput("-1,0.01,+"));
-            Assert.IsTrue(re.validInput("0.01,     9,    *"));
-            Assert.IsTrue(re.validInput("100, 200, 2000, -, +"));
-            Assert.IsTrue(re.validInput("-, 100, 200"));
-            Assert.IsTrue(re.validInput("101,+ , 100, 200, *"));
-            Assert.IsFalse(re.validInput("100, 200, -90, -, -, 100, 200"));
+            // Space array is ok
+            Assert.IsTrue(re.validInput("-1    0.01 +", '.'));
+            Assert.IsTrue(re.validInput("-1    0,01 +", ','));
+            Assert.IsTrue(re.validInput("2,5 5 /", ','));
+            Assert.IsTrue(re.validInput("2.5 5 /", '.'));
+            // Numbers of operator and digi is not different with 1
+            Assert.IsFalse(re.validInput("-1  200   0,01 +", ','));
+            Assert.IsTrue(re.validInput("-1  200   0,01 + -", ','));
+            // Incorrect & Correct operator
+            Assert.IsFalse(re.validInput("-1  200   0,01 + %", ','));
+            Assert.IsTrue(re.validInput("-1  200   0,01 + *", ','));
+            // Operator incorrect position
+            Assert.IsFalse(re.validInput(" - -1  200   0,01 + ", ','));
+            Assert.IsFalse(re.validInput("-1  -  200   0,01  *", ','));
+            Assert.IsTrue(re.validInput(" -1  200   0,01 / + ", ','));
+            Assert.IsTrue(re.validInput("-1     200   0,01  * /", ','));
         }
 
         [TestMethod()]
@@ -58,10 +77,20 @@ namespace RpnCalculator.Tests
         [TestMethod()]
         public void calculateTest1()
         {
-            RpnExpression re = new RpnExpression("100, 200, 300, -, +");
+            // Integer
+            RpnExpression re = new RpnExpression("100  200  300  -  +", '.');
             Assert.AreEqual(0, re.calculate());
-            re = new RpnExpression("100, 20, 200, -, 30, /, 50, *, +");
+            re = new RpnExpression("100  20  200  -  30  /  50  *  +", '.');
             Assert.AreEqual(-200, re.calculate());
+            re = new RpnExpression("100  200  300  -  +", ',');
+            Assert.AreEqual(0, re.calculate());
+            re = new RpnExpression("100  20  200  -  30  /  50  *  +", ',');
+            Assert.AreEqual(-200, re.calculate());
+            // Double
+            re = new RpnExpression("10,2  12,5  10  -  0,5  /  50  *  +", ',');
+            Assert.AreEqual(260.2, re.calculate());
+            re = new RpnExpression("10.2  12.5  10  -  0.5  /  50  *  +", '.');
+            Assert.AreEqual(260.2, re.calculate());
         }
     }
 }
